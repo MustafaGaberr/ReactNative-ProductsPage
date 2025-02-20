@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ActivityIndicator, SafeAreaView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-export default function Product() {
+export default function Product({ navigation }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -26,6 +26,10 @@ export default function Product() {
         console.log(`Added ${product.title} to cart`);
         // You can also add the product to a cart state here
     }
+
+    const handleLogout = () => {
+        navigation.replace('Welcome');
+    };
 
     const renderProductCard = ({ item }) => (
         <TouchableOpacity style={styles.card}>
@@ -59,7 +63,12 @@ export default function Product() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.headerTitle}>Our Products</Text>
+            <View style={styles.header}>
+                <Text style={styles.headerTitle}>Our Products</Text>
+                <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+                    <Ionicons name="log-out-outline" size={24} color="#B22222" />
+                </TouchableOpacity>
+            </View>
             <FlatList
                 data={products}
                 renderItem={renderProductCard}
@@ -128,5 +137,15 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+    logoutButton: {
+        padding: 8,
     },
 })
